@@ -1,10 +1,9 @@
 import HashtagList from "./hashtag/HashtagList";
 import Container from "./layout/Container";
 import Footer from "./layout/Footer";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { type TFeedbackItem } from "../lib/types";
-const API =
-  "https://bytegrad.com/course-assets/projects/corpcomment/api/feedbacks";
+import {API} from "../lib/constants";
 
 function App() {
   const [feedbackItems, setFeedbackItems] = useState<TFeedbackItem[]>([]);
@@ -14,10 +13,20 @@ function App() {
   const companies = feedbackItems.map((item) => item.company);
   const companySet = new Set(companies);
   const companyList = [...companySet];
-  const filteredFeedbacks = selectedCompany ? feedbackItems.filter((feedbackItem) => feedbackItem.company === selectedCompany): feedbackItems;
+
+  const filteredFeedbacks = useMemo(
+    () =>
+      selectedCompany
+        ? feedbackItems.filter(
+            (feedbackItem) => feedbackItem.company === selectedCompany
+          )
+        : feedbackItems,
+    [selectedCompany, feedbackItems]
+  );
+
   const handleDisplayHash = (company: string) => {
     setSelectedCompany(company);
-   };
+  };
 
   const handleAddListToList = async (text: string) => {
     const CompanyName = text
@@ -36,11 +45,10 @@ function App() {
 
     setFeedbackItems([...feedbackItems, newItem]);
 
-
-      await fetch(API, {
+    await fetch(API, {
       method: "POST",
       body: JSON.stringify(newItem),
-        headers: {
+      headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
