@@ -13,6 +13,7 @@ export type CompanyBadgeProps = {
 
 export type UpVoteProps = {
   upvoteCount: number;
+  setUpvoteCount: (upvoteCount: number) => void;
 };
 
 export type FBIDaysAgoProps = {

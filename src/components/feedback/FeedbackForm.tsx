@@ -7,6 +7,8 @@ type TFeedbackFormProps = {
 
 export default function FeedbackForm({ onAddListToList }: TFeedbackFormProps) {
   const [text, setText] = useState("");
+  const [showValidIndictor, setShowValidIndictor] = useState(false);
+  const [showInValidIndictor, setShowInValidIndictor] = useState(false);
   const count = MAX_CHARACTERS - text.length;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,13 +30,23 @@ export default function FeedbackForm({ onAddListToList }: TFeedbackFormProps) {
   };
 
   const validateText = (text: string) => { 
-    if (!text) {
-      return false;
+
+    if (text.includes('#') && text.length >= 5) {
+      setShowValidIndictor(true);
+      setTimeout(() => setShowValidIndictor(false), 3000);
+    } else {
+      setShowInValidIndictor(true);
+      setTimeout(() => setShowInValidIndictor(false), 3000);
     }
     return true;
   };
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form
+      className={`form ${showValidIndictor ? "form--valid" : ""} 
+      ${showValidIndictor ? "form--invalid" : ""}
+      }`}
+      onSubmit={handleSubmit}
+    >
       <textarea
         value={text}
         id="feedback-textarea"
