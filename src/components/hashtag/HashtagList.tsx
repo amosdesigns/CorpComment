@@ -1,11 +1,8 @@
+import { useFeedbackItemsContext } from "../../contexts/FeedbackItemsContextProvider";
 import HashtagItem from "./HashtagItem";
 
-
-type HashtagListProps = {
-  companyList: string[];
-  handleDisplayHash: (company:string) => void;
-};
-export default function HashtagList({ companyList, handleDisplayHash }: HashtagListProps) {
+export default function HashtagList() {
+  const { companyList, handleDisplayHash } = useFeedbackItemsContext();
   return (
     <ul className="hashtags">
       {companyList.map((company) => (
@@ -15,10 +12,7 @@ export default function HashtagList({ companyList, handleDisplayHash }: HashtagL
           onDisplayHash={handleDisplayHash}
         />
       ))}
-      <HashtagItem
-        company="All Companies"
-        onDisplayHash={handleDisplayHash}
-      />
+      <HashtagItem company="All Companies" onDisplayHash={handleDisplayHash} />
     </ul>
   );
 }
