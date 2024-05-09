@@ -4,7 +4,6 @@ import { API } from "../lib/constants";
 
 type TFeedbackItemsContext = {
   filteredFeedbacks: TFeedbackItem[];
-  feedbackItems: TFeedbackItem[];
   isLoading: boolean;
   errorMessage: string;
   companyList: string[];
@@ -98,7 +97,6 @@ export default function FeedbackItemsContextProvider({
     <FeedbackItemsContext.Provider
       value={{
         filteredFeedbacks,
-        feedbackItems,
         companyList,
         isLoading,
         errorMessage,
